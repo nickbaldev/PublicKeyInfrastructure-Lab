@@ -1,0 +1,12 @@
+Lab 4 Worksheet Totalpoints: 1.5 
+Score: 1.25 
+modifying the zone file's TTL and IP mappings Totalpoints: 0.5 
+Score: 0.5 
+Running a rebinding attack on the change temps page Totalpoints: 1 
+Score: 1 
+Running a zero-click attack on the attacker32 page Totalpoints: 1 
+Score: 1 
+Total points Totalpoints: 4 
+Score: 3.75 
+Notes 
+Insufficient explanation of attack

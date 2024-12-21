@@ -1,0 +1,81 @@
+:lang: en
+:source-highlighter: pygments
+:icons: font
+:xrefstyle: short
+
+
+=== https://www.cs.swarthmore.edu/~chaganti/cs88/s24[CS88] Lab-Checkpoint https://www.cs.swarthmore.edu/~chaganti/cs88/s24/labs/lab4.html[Lab4: Network Security]
+
+. List three Design Principles of Security that you think are the most important to securing the DNS system.
+
+
+  Fail-safe defaults
+  Security not through obscurity
+  Complete mediation
+  
+  
+. Use dig to issue the following queries
++
+```
+dig . ns
+dig +norec allspice.cs.swarthmore.edu @a.root-servers.net
+dig +norec allspice.cs.swarthmore.edu @a.edu-servers.net
+dig +norec allspice.cs.swarthmore.edu @ibext.its.swarthmore.edu
+```
+
+. What are we querying for and what information does the server respond with in..
+.. The first dig query
+ 
+ 
+    It is querying for all of the root servers, and the server responds with each of their IP addresses.
+  
+.. The second dig query
+
+    It is querying for allspice.cs.swarthmore.edu, and the server responds with .edu servers 
+
+
+.. The third dig query
+    
+  
+    It is querying for allspice.cs.swarthmore.edu, and the server responds with swarthmore.edu / ibext.its.swarthmore.edu
+
+
+.. The fourth dig query
+
+
+    It is querying for allspice.cs.swarthmore.edu, and the IP address is returned (130.58.68.9)
+
+
+. Our second dig query is to `@a.root-servers.net`, what other root servers could we have sent our query to?
+
+
+    Any of the other root-servers from b to m.
+    
+    
+. How many TLD servers can we query in the edu domain to resolve allspice.cs.swarthmore.edu?
+
+
+    13, Query the root DNS servers to find the name servers for the edu TLD. 
+    
+
+. Explain why the password prevents CSRF attacks in the Smarthome setup.
+
+
+    It prevents the attacker from being able to construct a URL that would lead to a CSRF attack.
+    
+    
+   
+. *Same Origin Policy* Click the buttons on the attacker and seed IoT pages used to set the thermostat, and describe your observations. Which page can successfully set the thermostat’s temperature? To find the reason, click the following menu sequence from Firefox: Tools → Web Developer → Web Console. A console window will appear, which displays error messages if any. Hint: the reason is related to the same-origin policy enforced by browsers. Please explain why this policy causes one of the pages to fail
+
+
+  Because the request is coming from www.attacker32.com/change, the domain doesn't match the one of www.seediot32.com, so the same origin 
+  policy prevents the page from being able to change the temperature. The SeedIOT one can set the temperature. 
+  
+  
+. Explain how your zero-click attack works to set the thermostat temperature to 88C.
+
+    During the countdown, the DNS rebinding technique is used so that the request to www.attacker32.com is sent to www.seediot32.com,       
+    changing the temperature of the thermostat to 88 degrees C.
+
+
+  

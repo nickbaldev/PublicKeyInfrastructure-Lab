@@ -1,0 +1,250 @@
+:lang: en
+:source-highlighter: pygments
+:icons: font
+:xrefstyle: short
+
+
+=== https://www.cs.swarthmore.edu/~chaganti/cs88/s24/index.html[CS88] Lab-Checkpoint
+https://www.cs.swarthmore.edu/~chaganti/cs88/s24/labs/lab4.html[Lab4: Network Security: Public Key Infrastructure & Internet of Things]
+
+==== Viewing CA certificates ====
+
+. Let's view the Root CAs preinstalled in your web browser. Open Firefox and go to
+`about:preferences#privacy`. Scroll all the way to Certificates and click "View Certificates".
+
+. List all the CAs that you see from the "Two-level Chain-of-Trust" example on the lab webpage.
+
+
+   VeriSign, Symantec Corporation
+
+
+. For the Symantec Root CA click on View to view the Root CA for either the Class 1 or Class 2 entries.
+List the Issuer Name Common Name, and the Public key algorithm used.
+** Issuer Name(Common Name): Symantec Class 1 Public Primary Certification Authority - G6
+** Public Key Algorithm: RSA
+
+. If we setup a new root CA specific to Swarthmore, how will browsers of all the devices in
+Swarthmore recognize our root CA? What about machines outside of Swarthmore's jurisdiction?
+
+
+   Machines outside of Swarthmore's jurisdiction would have to manually install the root CA as a trusted authority,
+   since no browser is going to have it pre-installed. For the devices in Swarthmore, the certificate could come with
+   using a device on the Swarthmore network.
+
+   
+   
+
+==== Setting up the configuration file `openssl.cnf`
+
+. Explain what the distinguished name stands for in the config file.
+
+
+   The distinguished name contains the information of the entity that the certificate is being issued to.
+   It contains the country, state, and other such information.
+
+. Explain what the CA_default section contains in the config file.
+
+
+   Lays out the default settings for certificates, determining things like which folder the certs and crls go to,
+   where the current ones are kept, where the certificate database is, etc.
+
+
+. Explain what the serial number is used for.
+
+
+   The serial number is used as a unique identifier for each certificate.
+
+==== Setting up the Root CA
+
+
+   A self-signed certificate is just a certificate that hasn't been thoroughly vetted and signed by a CA.
+   They can be more convenient to use for e.g. internal uses but are risky.
+
+. What public key algorithm was used to generate the Root CA certificate?
+
+
+   RSA Encryption
+
+
+. What part of the root CA certificate indicates this is a self-signed certificate?
+
+   
+   The fact that the issuer is www.swatCA.com which is the same as the subject. This means that the certificate is self-signed.
+   
+   
+
+. In the RSA algorithm, we have a public exponent e, a private exponent d, a modulus n, 
+   and two secret numbers p and q, such that n = pq. Identify the values for these elements 
+   in your certificate and key files.
+   
+   
+   public exponent: 65537
+   private exponent: 1c:89:b8:6d:64:de:89:be:da:8c:6b:b2:17:ed:20:
+    2b:fc:1b:06:b4:4f:84:d5:30:49:62:a1:e8:fb:2d:
+    c1:db:94:4f:54:9d:b9:ec:50:45:ff:7b:9c:d0:90:
+    be:cb:c7:45:b2:d8:91:83:5c:23:b3:3f:3e:cb:cd:
+    36:b0:b1:e7:73:0b:19:69:0e:78:8b:29:73:dd:45:
+    83:f7:4c:c8:02:a3:9c:67:7c:a5:b2:7e:11:f7:a6:
+    38:f0:45:69:9c:a1:11:8e:3e:d3:ff:f3:10:04:d8:
+    a7:0b:2d:65:31:6b:91:a0:4c:99:40:7a:e8:b9:9f:
+    1a:35:a4:3e:c9:9e:ca:33:e3:93:82:c2:68:71:4e:
+    88:b4:92:cf:b2:a7:3d:bc:3f:df:d1:7d:4e:46:72:
+    bb:f6:0a:75:15:ac:89:db:8a:0e:f6:83:d5:fe:ce:
+    c4:6b:5a:79:06:9f:80:8d:7b:a3:f6:73:eb:ce:e6:
+    2a:b3:a3:1b:0d:b4:ba:c0:cb:e2:dc:d0:95:62:2a:
+    c8:14:7b:57:fd:88:37:ae:4a:12:36:82:8a:e9:46:
+    39:81:a6:7b:77:cf:c1:55:47:c3:3e:eb:20:43:72:
+    8d:6b:38:db:54:41:c9:d1:49:40:ee:81:32:bb:4f:
+    03:31:03:d5:46:df:57:a9:d6:7b:8a:3e:e5:9e:b9:
+    b5:0f:c2:89:33:60:8b:56:57:d4:5d:ef:3a:27:af:
+    eb:33:5b:f6:6d:46:b1:51:6a:89:d4:9c:c8:a0:dc:
+    ff:da:6a:39:25:51:71:84:a6:7d:0d:93:79:a8:c2:
+    fe:bb:48:90:cc:07:6a:d0:02:6f:96:0f:63:bf:d0:
+    10:59:a9:c9:79:ab:34:e5:79:9f:5b:c7:cd:3a:ad:
+    91:e0:39:72:29:c5:3d:ea:08:ed:ed:fe:31:dd:f8:
+    7b:93:8a:5b:f9:ba:77:e7:a8:aa:01:5e:30:b4:f5:
+    66:a3:7c:3e:75:7f:51:27:99:98:23:31:e8:a4:eb:
+    84:4f:00:6c:ce:77:32:e9:dd:04:68:e5:5b:8f:2d:
+    00:26:ea:45:ca:1d:84:13:0e:ba:4e:29:b8:43:ea:
+    e2:70:18:bd:be:21:ad:11:5a:1b:0b:2e:14:db:5d:
+    1f:09:62:20:28:85:d3:b2:3f:be:bc:c4:2a:ec:32:
+    ff:86:1a:1c:cb:31:b6:b2:fd:2d:ce:c9:23:61:7a:
+    f9:67:84:8b:ef:42:0f:23:91:7f:c9:40:8a:0e:b3:
+    d9:df:96:6b:de:06:e9:44:13:6c:23:c9:3f:2e:7f:
+    2c:e3:0e:08:5f:73:99:79:f6:d9:12:1d:af:81:ff:
+    cd:50:37:90:a8:13:ed:38:12:09:27:94:c6:5e:42:
+    00:49
+   modulus: 00:c8:44:56:44:ba:d6:7c:df:40:34:cd:54:56:0d:
+    53:2b:ba:c9:01:a7:69:27:f5:65:15:61:0b:db:d8:
+    9a:15:5c:f5:5c:98:70:75:61:04:25:d2:60:39:59:
+    c3:12:bc:98:8f:7a:2e:aa:39:e2:6c:96:d8:aa:41:
+    bb:ec:18:af:e0:fe:e4:22:6f:03:da:a7:a6:b8:56:
+    70:b2:6b:4f:8e:d3:e2:42:5d:f1:2c:d9:88:e1:5f:
+    89:28:72:35:2d:09:f8:1c:45:32:bf:07:12:f0:d6:
+    b5:68:bc:7f:17:83:ae:2d:39:df:6c:1d:63:d7:01:
+    9c:d1:aa:b4:e0:2b:ca:ec:f7:a2:20:06:bd:b9:36:
+    ee:d0:24:47:b7:90:21:57:f3:6f:44:52:0c:1c:10:
+    25:58:a4:dd:e7:2b:1b:cf:6d:9e:35:3f:eb:4a:62:
+    de:4a:20:0a:a5:6f:01:60:1b:16:99:82:65:36:45:
+    4b:f2:90:12:62:8a:6c:9e:5f:85:4b:7b:f8:0e:54:
+    60:e1:6a:5e:b1:99:36:01:e0:be:5c:b9:1b:26:3c:
+    10:31:c6:d1:83:3a:9c:e1:e7:15:ce:91:4b:1d:19:
+    8a:f9:8d:50:e8:5f:c0:ca:46:50:44:a2:02:0f:f7:
+    b6:ee:fa:5a:93:b6:fd:d9:61:ac:36:4b:ab:3d:17:
+    41:1a:bb:7e:58:8d:b2:15:1e:5a:39:a3:8b:e7:ae:
+    38:9b:57:fe:96:09:e9:55:56:9d:38:20:27:5d:8a:
+    5c:75:c2:77:a2:95:e0:47:21:da:3d:72:54:ed:95:
+    d5:29:0f:1d:b4:37:e9:42:b2:bb:d7:41:9a:a2:d6:
+    4e:b6:21:f0:da:87:53:f4:1e:6b:2f:d4:c8:51:07:
+    6b:e8:42:78:77:00:f2:49:45:77:70:1e:2d:51:70:
+    84:ba:67:89:31:2d:29:01:8b:83:8c:77:65:59:f4:
+    7b:83:9b:ff:5f:84:c8:59:75:ce:da:cb:ed:b9:83:
+    4d:64:6f:30:3b:6b:27:7f:5f:99:b3:80:4b:2c:2a:
+    03:fd:63:55:92:a9:7e:fb:0d:f0:6c:db:d1:8f:da:
+    3c:22:93:4d:5c:84:7d:ba:03:b1:91:a4:0f:da:e8:
+    03:7f:3e:f9:24:25:ac:10:bc:82:ea:25:44:81:6e:
+    49:88:26:40:97:b5:5d:77:dc:31:8f:0e:1f:bb:82:
+    b5:7b:fe:f0:f0:8b:12:05:0c:27:ba:da:3e:1c:a9:
+    30:bb:71:24:c2:5a:91:7f:41:b0:21:43:94:7c:02:
+    85:dd:73:6d:70:7a:b0:cf:cd:52:85:e9:98:e1:8c:
+    1b:14:53:7d:e0:f9:a8:94:14:db:d8:ba:20:ab:ca:
+    70:c3:5f
+   prime1: 00:f5:7f:eb:bc:a6:68:ed:4b:a6:e2:d3:14:9e:d3:
+    96:75:40:e8:ac:3e:ea:8c:6d:d0:28:31:0d:d0:75:
+    de:56:f7:37:0a:cc:9e:e6:a5:bd:ec:9a:d6:38:d5:
+    f4:22:03:5b:1f:e2:30:62:8d:de:50:db:c0:70:71:
+    03:cb:a5:41:a6:85:4c:ed:e8:0e:0e:f3:4b:6f:da:
+    cf:48:7a:01:b7:a4:68:0c:f9:d6:c9:e5:fe:0e:cb:
+    dd:7d:0b:b8:a6:07:09:72:49:39:8c:00:53:01:60:
+    3f:ca:7a:b5:80:69:78:47:38:6b:6d:97:50:de:c9:
+    c2:4d:92:7d:18:22:c1:71:b4:c5:ab:ba:51:81:36:
+    bd:2b:cb:2a:7d:5a:47:7e:68:c9:74:29:03:03:e7:
+    f8:bd:a9:bb:ad:a1:f6:26:cc:34:07:e6:ac:bf:23:
+    8d:ec:26:67:7d:9f:f3:ca:08:96:24:7d:82:a7:92:
+    e6:dc:a0:b4:e4:a0:e7:41:7c:9e:28:94:d3:07:a2:
+    f1:4d:6d:98:0b:e7:88:20:73:59:08:14:85:3b:d8:
+    c2:96:09:e0:de:65:f2:fc:c0:51:06:55:8c:04:f1:
+    e3:d6:8b:99:b2:fe:c6:44:e7:85:f8:89:de:b4:07:
+    ae:c2:15:58:58:a2:dd:04:15:ad:bb:2b:ba:da:58:
+    2a:bd
+   prime2: 00:d0:d5:24:ce:ce:07:f1:43:c9:aa:56:69:c5:f4:
+    be:2e:c6:f2:c4:2e:da:f4:d7:92:50:de:9e:f4:d1:
+    b6:1c:24:5a:ff:c0:d2:a2:8c:40:79:21:5f:7a:41:
+    41:87:2d:5e:a4:65:f2:d5:25:e5:a0:fa:43:8a:4d:
+    34:31:e3:74:99:84:7d:02:e2:72:a0:7e:20:32:25:
+    ed:dc:fb:bb:d6:b6:14:c6:61:09:64:2c:93:54:47:
+    db:22:31:63:79:1c:ef:75:d6:4e:96:69:8c:4d:f9:
+    5e:0e:05:02:20:48:38:30:91:74:08:c8:9c:7b:b8:
+    88:36:7b:e5:1d:7b:9d:f7:1b:47:86:48:a3:7d:f1:
+    0a:b6:0f:fe:4c:03:db:51:d4:bc:f4:b1:2c:54:6b:
+    66:24:2b:60:65:b7:cb:90:9a:93:38:4b:b7:e4:74:
+    88:21:50:13:ab:e9:ad:7c:fa:6c:a8:e5:b4:81:db:
+    57:9a:01:9c:c4:fd:88:b7:c4:4c:18:db:f5:ec:4d:
+    26:d1:7a:0a:67:cf:a9:4f:93:81:68:03:ba:26:c2:
+    ab:c2:f2:6f:8c:7c:7c:c1:26:15:48:bf:8e:1c:0c:
+    e0:e8:8a:93:39:4a:8f:26:8c:69:f8:d2:a9:0d:1b:
+    fe:da:e0:29:af:11:93:8a:2c:ae:b1:7e:1c:a1:b0:
+    16:4b
+
+==== Setting up the certificates for cs88.com
+
+. Do you expect cs88_key.pem to have different RSA private and public key and exponents from swatCA.key?
+
+
+   They should have the same exponent but different keys.
+
+   
+   
+
+. Explain why setting a policy to a specific value is important using https://www.phildev.net/ssl/opensslconf.html[this link].
+
+
+   Setting a policy is important because if it is set to policy_anything then all that is needed for a request is a common name,
+   while we may want more information.
+   
+
+. Using the same reference above, explain the contents you see in index.txt
+
+
+   The index.txt file is a database of certificates. For us it shows Valid certificates (marked with V), an expiration date in 2034, 
+   serial number 1000, unknown file location, and the distinguished name.
+   
+
+. Once we copy the extension fields for our root CA signature, what do you observe when you run `rootCA_sign_cert.sh` for the second time?
+
+
+   The .pem file contains the alternate names. There is another entry in the database index.txt file.
+   
+   
+. Specify why you would see the Firefox warning if you were to visit https://www.cs88w.com.
+
+
+     Because cs88w is not part of the trusted names.
+     
+     
+==== MiTM attack
+
+. When you run `dig google.com` what address do you think www.google.com maps to?
+
+   142.251.40.206
+
+
+. Once you overwrite the mapping for `www.google.com` to `93.184.216.34` and then launch Firefox and type `https://www.google.com`
+  What do you observe? If you see a warning message - then click on the advanced button to learn more about why Firefox won’t 
+  let you proceed. Explain why this MiTM attack fails when www.example.com tries to impersonate www.google.com.
+
+
+   Because Firefox is checking the certificate and sees that example.com's certificate is not valid for 
+   google.com. Therefore, it doesn't trust the site.
+   
+   
+
+. Next, explain how and why your more advanced  Man in the middle attack works.
+
+   
+   
+   Since we were able to force the SwatCA to sign off the certificate request from example.com, 
+   it became trusted, and then we were able to intercept the traffic to the real example.com to our fake one. 
+   
+   We were able to do this because we assumed the private key is stolen, which leads to the security system failing.
+   

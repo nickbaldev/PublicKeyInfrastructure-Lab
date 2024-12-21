@@ -1,0 +1,14 @@
+Lab 4 - Checkpoint Worksheet Totalpoints: 1 
+Score: 1 
+Setup a Root CA Totalpoints: 1 
+Score: 1 
+Setup swatCA Totalpoints: 0.5 
+Score: 0.5 
+Setup SwatCA alternate domain names Totalpoints: 0.5 
+Score: 0.5 
+Launch MitM attack Totalpoints: 1 
+Score: 1 
+Lab 4a Grading Totalpoints: 4 
+Score: 4 
+Notes 
+Well Done! 
